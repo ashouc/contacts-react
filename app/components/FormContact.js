@@ -26,6 +26,7 @@ class FormContact extends React.Component {
     };
     this.clearForm = () => {
       this.setState({
+        id: '',
         firstName: '',
         lastName: '',
         jobTitle: '',
@@ -45,12 +46,11 @@ class FormContact extends React.Component {
     this.cancelButton = () => {
       this.props.cancelHandler();
       this.clearForm();
-      this.props.visible = false;
     }
 
     this.updateButton = (event) => {
       event.preventDefault();
-      this.props.updateHandler(this.state);
+      this.props.updateContact(this.state);
       this.clearForm();
     }
 

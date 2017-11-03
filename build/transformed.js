@@ -60,11 +60,26 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 15);
+/******/ 	return __webpack_require__(__webpack_require__.s = 17);
 /******/ })
 /************************************************************************/
 /******/ ([
 /* 0 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(process) {
+
+if (process.env.NODE_ENV === 'production') {
+  module.exports = __webpack_require__(18);
+} else {
+  module.exports = __webpack_require__(19);
+}
+
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
+
+/***/ }),
+/* 1 */
 /***/ (function(module, exports) {
 
 // shim for using process in browser
@@ -254,21 +269,6 @@ process.umask = function() { return 0; };
 
 
 /***/ }),
-/* 1 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(process) {
-
-if (process.env.NODE_ENV === 'production') {
-  module.exports = __webpack_require__(16);
-} else {
-  module.exports = __webpack_require__(17);
-}
-
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
-
-/***/ }),
 /* 2 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -368,7 +368,7 @@ function invariant(condition, format, a, b, c, d, e, f) {
 }
 
 module.exports = invariant;
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
 /* 4 */
@@ -489,7 +489,7 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 module.exports = emptyObject;
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
 /* 6 */
@@ -558,7 +558,7 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 module.exports = warning;
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
 /* 7 */
@@ -625,7 +625,7 @@ function checkPropTypes(typeSpecs, values, location, componentName, getStack) {
 
 module.exports = checkPropTypes;
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
 /* 8 */
@@ -764,7 +764,7 @@ var EventListener = {
 };
 
 module.exports = EventListener;
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
 /* 11 */
@@ -853,7 +853,7 @@ module.exports = shallowEqual;
  * 
  */
 
-var isTextNode = __webpack_require__(20);
+var isTextNode = __webpack_require__(22);
 
 /*eslint-disable no-bitwise */
 
@@ -956,15 +956,227 @@ module.exports = getActiveElement;
 /* 15 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var React = __webpack_require__(1);
-var ReactDOM = __webpack_require__(18);
-var App = __webpack_require__(32);
-__webpack_require__(37);
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+const React = __webpack_require__(0);
+const Contact = __webpack_require__(35);
+
+const ContactList = props => {
+  return React.createElement(
+    'div',
+    { className: 'container' },
+    props.contacts.map(contact => React.createElement(Contact, _extends({
+      getLatestContacts: props.getLatestContacts,
+      key: contact.id }, contact)))
+  );
+};
+
+module.exports = ContactList;
+
+/***/ }),
+/* 16 */
+/***/ (function(module, exports, __webpack_require__) {
+
+const React = __webpack_require__(0);
+
+class FormContact extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      id: this.props.fullProfile ? this.props.fullProfile.id : '',
+      firstName: this.props.fullProfile ? this.props.fullProfile.firstName : '',
+      lastName: this.props.fullProfile ? this.props.fullProfile.lastName : '',
+      jobTitle: this.props.fullProfile ? this.props.fullProfile.jobTitle : '',
+      address1: this.props.fullProfile ? this.props.fullProfile.address1 : '',
+      address2: this.props.fullProfile ? this.props.fullProfile.address2 : '',
+      city: this.props.fullProfile ? this.props.fullProfile.city : '',
+      province: this.props.fullProfile ? this.props.fullProfile.state : '',
+      zipcode: this.props.fullProfile ? this.props.fullProfile.zip : '',
+      mobilePhone: this.props.fullProfile ? this.props.fullProfile.mobilePhone : '',
+      homePhone: this.props.fullProfile ? this.props.fullProfile.homePhone : '',
+      workPhone: this.props.fullProfile ? this.props.fullProfile.workPhone : '',
+      email: this.props.fullProfile ? this.props.fullProfile.email : '',
+      photo: this.props.fullProfile ? this.props.fullProfile.photo : ''
+    };
+    this.changeHandler = event => {
+      event.preventDefault();
+      this.setState({ [event.target.name]: event.target.value });
+    };
+    this.clearForm = () => {
+      this.setState({
+        id: '',
+        firstName: '',
+        lastName: '',
+        jobTitle: '',
+        address1: '',
+        address2: '',
+        city: '',
+        province: '',
+        zipcode: '',
+        mobilePhone: '',
+        homePhone: '',
+        workPhone: '',
+        email: '',
+        photo: ''
+      });
+    };
+
+    this.cancelButton = () => {
+      this.props.cancelHandler();
+      this.clearForm();
+    };
+
+    this.updateButton = event => {
+      event.preventDefault();
+      this.props.updateContact(this.state);
+      this.clearForm();
+    };
+
+    this.submitButton = event => {
+      event.preventDefault();
+      this.props.submitHandler(this.state);
+      this.clearForm();
+    };
+  }
+  componentWillReceiveProps(nextProps) {
+    if (this.props.fullProfile) {
+      this.setState({
+        id: nextProps.fullProfile.id,
+        firstName: nextProps.fullProfile.firstName,
+        lastName: nextProps.fullProfile.lastName,
+        jobTitle: nextProps.fullProfile.jobTitle,
+        address1: nextProps.fullProfile.address1,
+        address2: nextProps.fullProfile.address2,
+        city: nextProps.fullProfile.city,
+        province: nextProps.fullProfile.state,
+        zipcode: nextProps.fullProfile.zip,
+        mobilePhone: nextProps.fullProfile.mobilePhone,
+        homePhone: nextProps.fullProfile.homePhone,
+        workPhone: nextProps.fullProfile.workPhone,
+        email: nextProps.fullProfile.email,
+        photo: nextProps.fullProfile.photo
+      });
+    }
+  }
+  render() {
+    return React.createElement(
+      'div',
+      { className: 'form', style: { display: this.props.visible ? 'block' : 'none', textAlign: 'center' } },
+      React.createElement(
+        'form',
+        {
+          className: 'create',
+          onSubmit: this.props.formType === "add" ? this.submitButton : this.updateButton },
+        React.createElement('input', { className: 'col', placeholder: 'First name',
+          value: this.state.firstName,
+          name: 'firstName',
+          onChange: this.changeHandler, required: true }),
+        React.createElement('input', { className: 'col', placeholder: 'Last name',
+          value: this.state.lastName,
+          name: 'lastName',
+          onChange: this.changeHandler }),
+        React.createElement('input', { className: 'col', type: 'text',
+          name: 'jobTitle',
+          value: this.state.jobTitle,
+          onChange: this.changeHandler,
+          placeholder: 'Job Title' }),
+        React.createElement('input', { className: 'col', type: 'text',
+          name: 'address1',
+          value: this.state.address1,
+          onChange: this.changeHandler,
+          placeholder: 'Address 1 (ex. 1234 Foo Bar Baz Street)' }),
+        React.createElement('input', { className: 'col', type: 'text',
+          name: 'address2',
+          value: this.state.address2,
+          onChange: this.changeHandler,
+          placeholder: 'Address 2 (optional)' }),
+        React.createElement('input', { className: 'col', type: 'text', name: 'city',
+          value: this.state.city,
+          onChange: this.changeHandler,
+          placeholder: 'City' }),
+        React.createElement('input', { className: 'col', type: 'text',
+          name: 'province',
+          value: this.state.province,
+          onChange: this.changeHandler,
+          placeholder: 'State' }),
+        React.createElement('input', { className: 'col', type: 'text',
+          name: 'zipcode',
+          value: this.state.zipcode,
+          onChange: this.changeHandler,
+          placeholder: 'Zip code' }),
+        React.createElement('input', { className: 'col', type: 'tel',
+          name: 'mobilePhone',
+          value: this.state.mobilePhone,
+          onChange: this.changeHandler,
+          placeholder: 'Mobile number (ex. 123-456-7890)', required: true }),
+        React.createElement('input', { className: 'col', type: 'tel',
+          name: 'homePhone',
+          value: this.state.homePhone,
+          onChange: this.changeHandler,
+          placeholder: 'Home number', required: true }),
+        React.createElement('input', { className: 'col', type: 'tel',
+          name: 'workPhone',
+          value: this.state.workPhone,
+          onChange: this.changeHandler,
+          placeholder: 'Work number' }),
+        React.createElement('input', { className: 'col', type: 'email',
+          name: 'email',
+          value: this.state.email,
+          onChange: this.changeHandler,
+          placeholder: 'your@email.com' }),
+        React.createElement('input', { className: 'col add-picture', type: 'url',
+          name: 'photo',
+          value: this.state.photo,
+          onChange: this.changeHandler,
+          placeholder: 'Please add the URL to the profile picture' }),
+        React.createElement(
+          'div',
+          { className: 'buttons' },
+          React.createElement(
+            'button',
+            { className: 'form-btn new',
+              type: 'submit',
+              name: 'button',
+              style: { display: this.props.formType === "add" ? "inline-block" : "none" } },
+            React.createElement('i', { className: 'fa fa-check-circle', 'aria-hidden': 'true' })
+          ),
+          React.createElement(
+            'button',
+            { className: 'form-btn update',
+              type: 'submit',
+              name: 'button',
+              style: { display: this.props.formType === "update" ? "inline-block" : "none" } },
+            React.createElement('i', { className: 'fa fa-check-circle', 'aria-hidden': 'true' })
+          ),
+          React.createElement(
+            'button',
+            { className: 'form-btn cancel',
+              type: 'button',
+              name: 'cancel',
+              onClick: this.cancelButton },
+            React.createElement('i', { className: 'fa fa-times-circle', 'aria-hidden': 'true' })
+          )
+        )
+      )
+    );
+  }
+}
+
+module.exports = FormContact;
+
+/***/ }),
+/* 17 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var React = __webpack_require__(0);
+var ReactDOM = __webpack_require__(20);
+var App = __webpack_require__(34);
+__webpack_require__(41);
 
 ReactDOM.render(React.createElement(App, null), document.getElementById('app'));
 
 /***/ }),
-/* 16 */
+/* 18 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -994,7 +1206,7 @@ module.exports={Children:{map:S.map,forEach:S.forEach,count:S.count,toArray:S.to
 
 
 /***/ }),
-/* 17 */
+/* 19 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2697,10 +2909,10 @@ module.exports = ReactEntry;
 })();
 }
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
-/* 18 */
+/* 20 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2738,15 +2950,15 @@ if (process.env.NODE_ENV === 'production') {
   // DCE check should happen before ReactDOM bundle executes so that
   // DevTools can report bad minification during injection.
   checkDCE();
-  module.exports = __webpack_require__(19);
+  module.exports = __webpack_require__(21);
 } else {
-  module.exports = __webpack_require__(22);
+  module.exports = __webpack_require__(24);
 }
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
-/* 19 */
+/* 21 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2760,7 +2972,7 @@ if (process.env.NODE_ENV === 'production') {
  LICENSE file in the root directory of this source tree.
  Modernizr 3.0.0pre (Custom Build) | MIT
 */
-var aa=__webpack_require__(1);__webpack_require__(3);var l=__webpack_require__(9),n=__webpack_require__(4),ba=__webpack_require__(10),ca=__webpack_require__(2),da=__webpack_require__(5),ea=__webpack_require__(11),fa=__webpack_require__(12),ha=__webpack_require__(13),ia=__webpack_require__(14);
+var aa=__webpack_require__(0);__webpack_require__(3);var l=__webpack_require__(9),n=__webpack_require__(4),ba=__webpack_require__(10),ca=__webpack_require__(2),da=__webpack_require__(5),ea=__webpack_require__(11),fa=__webpack_require__(12),ha=__webpack_require__(13),ia=__webpack_require__(14);
 function w(a){for(var b=arguments.length-1,c="Minified React error #"+a+"; visit http://facebook.github.io/react/docs/error-decoder.html?invariant\x3d"+a,d=0;d<b;d++)c+="\x26args[]\x3d"+encodeURIComponent(arguments[d+1]);b=Error(c+" for the full message or use the non-minified dev environment for full errors and additional helpful warnings.");b.name="Invariant Violation";b.framesToPop=1;throw b;}aa?void 0:w("227");
 function ja(a){switch(a){case "svg":return"http://www.w3.org/2000/svg";case "math":return"http://www.w3.org/1998/Math/MathML";default:return"http://www.w3.org/1999/xhtml"}}
 var ka={Namespaces:{html:"http://www.w3.org/1999/xhtml",mathml:"http://www.w3.org/1998/Math/MathML",svg:"http://www.w3.org/2000/svg"},getIntrinsicNamespace:ja,getChildNamespace:function(a,b){return null==a||"http://www.w3.org/1999/xhtml"===a?ja(b):"http://www.w3.org/2000/svg"===a&&"foreignObject"===b?"http://www.w3.org/1999/xhtml":a}},la=null,oa={};
@@ -3009,7 +3221,7 @@ unstable_deferredUpdates:Xj.deferredUpdates,flushSync:Xj.flushSync,__SECRET_INTE
 
 
 /***/ }),
-/* 20 */
+/* 22 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3024,7 +3236,7 @@ unstable_deferredUpdates:Xj.deferredUpdates,flushSync:Xj.flushSync,__SECRET_INTE
  * @typechecks
  */
 
-var isNode = __webpack_require__(21);
+var isNode = __webpack_require__(23);
 
 /**
  * @param {*} object The object to check.
@@ -3037,7 +3249,7 @@ function isTextNode(object) {
 module.exports = isTextNode;
 
 /***/ }),
-/* 21 */
+/* 23 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3065,7 +3277,7 @@ function isNode(object) {
 module.exports = isNode;
 
 /***/ }),
-/* 22 */
+/* 24 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3085,17 +3297,17 @@ if (process.env.NODE_ENV !== "production") {
 
 'use strict';
 
-var react = __webpack_require__(1);
+var react = __webpack_require__(0);
 var invariant = __webpack_require__(3);
 var ExecutionEnvironment = __webpack_require__(9);
 var _assign = __webpack_require__(4);
 var EventListener = __webpack_require__(10);
 var require$$0 = __webpack_require__(6);
-var hyphenateStyleName = __webpack_require__(23);
+var hyphenateStyleName = __webpack_require__(25);
 var emptyFunction = __webpack_require__(2);
-var camelizeStyleName = __webpack_require__(25);
-var performanceNow = __webpack_require__(27);
-var propTypes = __webpack_require__(29);
+var camelizeStyleName = __webpack_require__(27);
+var performanceNow = __webpack_require__(29);
+var propTypes = __webpack_require__(31);
 var emptyObject = __webpack_require__(5);
 var checkPropTypes = __webpack_require__(7);
 var shallowEqual = __webpack_require__(11);
@@ -20291,10 +20503,10 @@ module.exports = ReactDOMFiberEntry;
 })();
 }
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
-/* 23 */
+/* 25 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -20309,7 +20521,7 @@ module.exports = ReactDOMFiberEntry;
 
 
 
-var hyphenate = __webpack_require__(24);
+var hyphenate = __webpack_require__(26);
 
 var msPattern = /^ms-/;
 
@@ -20336,7 +20548,7 @@ function hyphenateStyleName(string) {
 module.exports = hyphenateStyleName;
 
 /***/ }),
-/* 24 */
+/* 26 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -20372,7 +20584,7 @@ function hyphenate(string) {
 module.exports = hyphenate;
 
 /***/ }),
-/* 25 */
+/* 27 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -20387,7 +20599,7 @@ module.exports = hyphenate;
 
 
 
-var camelize = __webpack_require__(26);
+var camelize = __webpack_require__(28);
 
 var msPattern = /^-ms-/;
 
@@ -20415,7 +20627,7 @@ function camelizeStyleName(string) {
 module.exports = camelizeStyleName;
 
 /***/ }),
-/* 26 */
+/* 28 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -20450,7 +20662,7 @@ function camelize(string) {
 module.exports = camelize;
 
 /***/ }),
-/* 27 */
+/* 29 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -20465,7 +20677,7 @@ module.exports = camelize;
  * @typechecks
  */
 
-var performance = __webpack_require__(28);
+var performance = __webpack_require__(30);
 
 var performanceNow;
 
@@ -20487,7 +20699,7 @@ if (performance.now) {
 module.exports = performanceNow;
 
 /***/ }),
-/* 28 */
+/* 30 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -20513,7 +20725,7 @@ if (ExecutionEnvironment.canUseDOM) {
 module.exports = performance || {};
 
 /***/ }),
-/* 29 */
+/* 31 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(process) {/**
@@ -20538,17 +20750,17 @@ if (process.env.NODE_ENV !== 'production') {
   // By explicitly using `prop-types` you are opting into new development behavior.
   // http://fb.me/prop-types-in-prod
   var throwOnDirectAccess = true;
-  module.exports = __webpack_require__(30)(isValidElement, throwOnDirectAccess);
+  module.exports = __webpack_require__(32)(isValidElement, throwOnDirectAccess);
 } else {
   // By explicitly using `prop-types` you are opting into new production behavior.
   // http://fb.me/prop-types-in-prod
-  module.exports = __webpack_require__(31)();
+  module.exports = __webpack_require__(33)();
 }
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
-/* 30 */
+/* 32 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21095,10 +21307,10 @@ module.exports = function(isValidElement, throwOnDirectAccess) {
   return ReactPropTypes;
 };
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
-/* 31 */
+/* 33 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21163,47 +21375,134 @@ module.exports = function() {
 
 
 /***/ }),
-/* 32 */
+/* 34 */
 /***/ (function(module, exports, __webpack_require__) {
 
-const React = __webpack_require__(1);
-const ContactList = __webpack_require__(33);
-const Header = __webpack_require__(35);
-const Search = __webpack_require__(36);
+const React = __webpack_require__(0);
+const ContactList = __webpack_require__(15);
+const Header = __webpack_require__(38);
+const Search = __webpack_require__(39);
+const AddContact = __webpack_require__(40);
 
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      data: [{
-        id: '1',
-        name: {
-          first: 'Alex',
-          last: 'Shoucri'
-        },
-        jobTitle: 'Junior Dev',
-        address: {
-          address1: 'address1',
-          address2: 'address2',
-          city: 'Montreal',
-          state: 'Quebec',
-          zip: '12345'
-        },
-        mobile_phone: '123-456-7890',
-        home_phone: '321-654-0987',
-        work_phone: '890-567-1234',
-        email: 'me@example.com',
-        photo: 'http://example.com/profile.png'
-      }]
+      sortBy: 'Last Name',
+      nameSearch: "",
+      contacts: []
     };
+    var contacts = [];
+    this.getBasicInfo = () => {
+      let url = 'http://dev.alexshoucri.com:8888/contacts/';
+      axios.get(url, {
+        params: {}
+      }).then(resp => {
+        contacts = resp.data.contacts;
+        this.sortContacts("first", contacts);
+        this.setState({ contacts: contacts });
+      });
+    };
+    this.filterContacts = name => {
+      if (!name) {
+        this.setState({ contacts: contacts });
+        return;
+      }
+      let filterNames = contacts.filter(function (contact) {
+        if (contact.name.first.toLowerCase().indexOf(name.toLowerCase()) !== -1 || contact.name.last.toLowerCase().indexOf(name.toLowerCase()) !== -1) {
+          return contact;
+        }
+      });
+      this.setState({ contacts: filterNames });
+    };
+    this.searchName = query => {
+      if (!query) {
+        this.setState({ nameSearch: "" });
+        return;
+      }
+      this.setState({ nameSearch: query });
+      return;
+    };
+    this.sortContacts = (sortIndicator, contacts) => {
+      let nameA;
+      let nameB;
+      // By first name
+      if (sortIndicator === "first") {
+        contacts.sort(function (a, b) {
+          nameA = a.name.first.toUpperCase();
+          nameB = b.name.first.toUpperCase();
+          if (nameA < nameB) {
+            return -1;
+          }
+          if (nameA > nameB) {
+            return 1;
+          }
+          return 0;
+        });
+      }
+      // By last name
+      if (sortIndicator === "last") {
+        contacts.sort(function (a, b) {
+          nameA = a.name.last.toUpperCase();
+          nameB = b.name.last.toUpperCase();
+          if (nameA < nameB) {
+            return -1;
+          }
+          if (nameA > nameB) {
+            return 1;
+          }
+          return 0;
+        });
+      }
+    };
+    this.toggleSortPreference = () => {
+      if (this.state.sortBy === "Last Name") {
+        this.setState({ sortBy: "First Name" });
+        this.sortContacts("last", contacts);
+      }
+      if (this.state.sortBy === "First Name") {
+        this.setState({ sortBy: "Last Name" });
+        this.sortContacts("first", contacts);
+      }
+    };
+    this.getBasicInfo();
   }
   render() {
     return React.createElement(
       'div',
-      null,
-      React.createElement(Header, { length: this.state.data.length }),
-      React.createElement(Search, null),
-      React.createElement(ContactList, null)
+      { className: 'header' },
+      React.createElement(
+        'div',
+        { className: 'fixed' },
+        React.createElement(Header, { length: this.state.contacts.length }),
+        React.createElement(AddContact, {
+          getLatestContacts: this.getBasicInfo,
+          numberOfContacts: this.state.contacts.length }),
+        React.createElement(Search, { inputName: this.searchName, filterNames: this.filterContacts }),
+        React.createElement(
+          'div',
+          { className: 'sort-items' },
+          React.createElement(
+            'p',
+            null,
+            'Sort by ',
+            React.createElement(
+              'span',
+              {
+                onClick: this.toggleSortPreference,
+                value: this.state.sortBy },
+              this.state.sortBy
+            )
+          )
+        )
+      ),
+      React.createElement(
+        'div',
+        { className: 'content' },
+        React.createElement(ContactList, {
+          getLatestContacts: this.getBasicInfo,
+          contacts: this.state.contacts })
+      )
     );
   }
 }
@@ -21211,69 +21510,335 @@ class App extends React.Component {
 module.exports = App;
 
 /***/ }),
-/* 33 */
+/* 35 */
 /***/ (function(module, exports, __webpack_require__) {
 
-const React = __webpack_require__(1);
-const Contact = __webpack_require__(34);
+const React = __webpack_require__(0);
+const FormContact = __webpack_require__(16);
+const ViewFullProfile = __webpack_require__(36);
+const FormButtons = __webpack_require__(37);
 
-const ContactList = props => {
+class Contact extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      formShown: false,
+      showFullProfile: false,
+      deleteConfirmation: false,
+      formType: 'update',
+      contactInfo: {
+        id: this.props.id,
+        firstName: this.props.name.first,
+        lastName: this.props.name.last,
+        jobTitle: this.props.jobTitle,
+        address1: '',
+        address2: '',
+        city: '',
+        state: '',
+        zip: '',
+        mobilePhone: '',
+        homePhone: '',
+        workPhone: '',
+        email: this.props.email,
+        photo: this.props.photo
+      }
+    };
+
+    this.confirmDeleteContact = () => {
+      this.setState({ deleteConfirmation: true });
+    };
+
+    this.cancelDelete = () => {
+      this.setState({ deleteConfirmation: false });
+    };
+
+    this.changeFormDisplay = event => {
+      this.setState({ formShown: this.state.formShown ? false : true });
+    };
+    this.showFullProfile = event => {
+      event.preventDefault();
+      this.setState({ showFullProfile: this.state.showFullProfile ? false : true });
+      this.getFullProfile();
+    };
+
+    this.updateContact = contact => {
+      let id = contact.id;
+      let url = 'http://dev.alexshoucri.com:8888/contacts/' + id;
+      axios.put(url, {
+        id: id,
+        name: {
+          first: contact.firstName,
+          last: contact.lastName
+        },
+        jobTitle: contact.jobTitle,
+        address: {
+          address1: contact.address1,
+          address2: contact.address2,
+          city: contact.city,
+          state: contact.state,
+          zip: contact.zip
+        },
+        mobile_phone: contact.mobilePhone,
+        home_phone: contact.homePhone,
+        work_phone: contact.workPhone,
+        email: contact.email,
+        photo: contact.photo
+      }).then(resp => {
+        this.setState({ formShown: this.state.formShown ? false : true });
+      }).then(() => {
+        this.props.getLatestContacts();
+      });
+    };
+
+    this.deleteHandler = event => {
+      event.preventDefault();
+      this.deleteContact(this.props.id);
+    };
+
+    this.deleteContact = id => {
+      let url = 'http://dev.alexshoucri.com:8888/contacts/' + id;
+      axios.delete(url, {
+        params: {}
+      }).then(() => {
+        this.setState({ deleteConfirmation: false });
+      }).then(() => {
+        this.props.getLatestContacts();
+      });
+    };
+
+    this.cancelUpdate = () => {
+      this.setState({ formShown: this.state.formShown ? false : true });
+    };
+
+    this.editProfile = event => {
+      event.preventDefault();
+      this.getFullProfile('edit');
+    };
+
+    this.getFullProfile = (origin, event) => {
+      let id = this.props.id;
+      console.log(id);
+      let url = 'http://dev.alexshoucri.com:8888/contacts/' + id;
+      axios.get(url, {}).then(resp => {
+
+        this.setState({
+          contactInfo: {
+            id: this.props.id,
+            firstName: resp.data.name.first,
+            lastName: resp.data.name.last,
+            jobTitle: resp.data.jobTitle,
+            address1: resp.data.address.address1,
+            address2: resp.data.address.address2,
+            city: resp.data.address.city,
+            state: resp.data.address.state,
+            zip: resp.data.address.zip,
+            mobilePhone: resp.data.mobile_phone,
+            homePhone: resp.data.home_phone,
+            workPhone: resp.data.work_phone,
+            email: resp.data.email,
+            photo: resp.data.photo
+          }
+        });
+      }).then(() => {
+        if (origin === 'edit') {
+          this.changeFormDisplay();
+        }
+      });
+    };
+  }
+  render() {
+    return React.createElement(
+      'div',
+      { className: 'contact' },
+      React.createElement('img', { style: {},
+        className: 'profile-picture',
+        width: '75px',
+        src: this.props.photo }),
+      React.createElement(
+        'div',
+        { className: 'name', style: { display: 'inline-block' } },
+        React.createElement(
+          'div',
+          { className: 'first-name' },
+          this.props.name.first,
+          React.createElement(
+            'span',
+            { className: 'last-name' },
+            ' ',
+            this.props.name.last,
+            ' '
+          ),
+          React.createElement('i', { className: 'fa fa-angle-down', 'aria-hidden': 'true',
+            onClick: this.showFullProfile,
+            style: { transform: this.state.showFullProfile ? "rotateZ(180deg)" : 'rotateZ(0deg)' } })
+        ),
+        React.createElement(
+          'div',
+          { className: 'job-title' },
+          this.props.jobTitle
+        ),
+        React.createElement(ViewFullProfile, {
+          contact: this.state.contactInfo,
+          display: this.state.showFullProfile
+        }),
+        React.createElement(
+          'div',
+          { className: 'icons2' },
+          React.createElement(
+            'a',
+            { href: 'mailto:alex@example.com' },
+            React.createElement('i', { className: 'email fa fa-envelope-o fa-lg', 'aria-hidden': 'true' })
+          ),
+          React.createElement('i', { className: 'edit fa fa-pencil fa-lg', 'aria-hidden': 'true', onClick: this.editProfile }),
+          React.createElement('i', { className: 'delete fa fa-trash-o fa-lg', 'aria-hidden': 'true', onClick: this.confirmDeleteContact })
+        )
+      ),
+      React.createElement(
+        'div',
+        { className: 'delete-confirm',
+          style: {
+            display: this.state.deleteConfirmation ? "inline-block" : "none",
+            textAlign: 'center'
+          } },
+        React.createElement(
+          'p',
+          null,
+          'Delete?'
+        ),
+        React.createElement(FormButtons, {
+          cancel: this.cancelDelete,
+          deleteContact: this.deleteHandler
+        })
+      ),
+      React.createElement(FormContact, {
+        fullProfile: this.state.contactInfo,
+        cancelHandler: this.cancelUpdate,
+        updateContact: this.updateContact,
+        visible: this.state.formShown,
+        formType: this.state.formType
+      })
+    );
+  }
+}
+
+module.exports = Contact;
+
+/***/ }),
+/* 36 */
+/***/ (function(module, exports, __webpack_require__) {
+
+const React = __webpack_require__(0);
+
+const FullProfile = props => {
   return React.createElement(
     'div',
-    { className: 'container' },
-    React.createElement(Contact, null)
+    { className: 'full-profile', style: { display: props.display ? 'inline-block' : 'none' } },
+    React.createElement(
+      'div',
+      { className: 'address' },
+      React.createElement(
+        'p',
+        null,
+        props.contact.address1,
+        ' ',
+        props.contact.address2,
+        React.createElement('br', null),
+        props.contact.city,
+        ' ',
+        props.contact.state,
+        ' ',
+        props.contact.zip,
+        React.createElement('br', null)
+      )
+    ),
+    React.createElement(
+      'div',
+      { className: 'tel-numbers' },
+      React.createElement(
+        'p',
+        null,
+        React.createElement(
+          'span',
+          { style: { visibily: props.contact.mobilePhone ? 'visible' : 'hidden' } },
+          React.createElement(
+            'i',
+            { className: 'fa fa-mobile', 'aria-hidden': 'true' },
+            '\xA0 '
+          ),
+          props.contact.mobilePhone
+        ),
+        React.createElement('br', null),
+        React.createElement(
+          'span',
+          { style: { visibily: props.contact.homePhone ? 'visible' : 'hidden' } },
+          React.createElement(
+            'i',
+            { className: 'fa fa-home', 'aria-hidden': 'true' },
+            '\xA0 '
+          ),
+          props.contact.homePhone
+        ),
+        React.createElement('br', null),
+        React.createElement(
+          'span',
+          { style: { visibily: props.contact.workPhone ? 'visible' : 'hidden' } },
+          React.createElement(
+            'i',
+            { className: 'fa fa-briefcase', 'aria-hidden': 'true' },
+            '\xA0 '
+          ),
+          props.contact.workPhone
+        )
+      )
+    )
   );
 };
 
-module.exports = ContactList;
+module.exports = FullProfile;
 
 /***/ }),
-/* 34 */
+/* 37 */
 /***/ (function(module, exports, __webpack_require__) {
 
-const React = __webpack_require__(1);
+const React = __webpack_require__(0);
 
-class Contact extends React.Component {
+class FormButtons extends React.Component {
   constructor(props) {
     super(props);
   }
   render() {
     return React.createElement(
       'div',
-      { className: 'contact' },
-      React.createElement('img', { style: { padding: '0 10px 0' }, className: 'profil-picture', width: '75px', src: 'http://placehold.it/75' }),
+      { className: 'button' },
       React.createElement(
-        'div',
-        { style: { display: 'inline-block' } },
-        React.createElement(
-          'div',
-          { className: 'first-name' },
-          'Alex',
-          React.createElement(
-            'span',
-            { className: 'last-name' },
-            ' Shoucri '
-          ),
-          React.createElement('i', { 'class': 'fa fa-chevron-down', 'aria-hidden': 'true' })
-        ),
-        React.createElement(
-          'div',
-          { className: 'job-title' },
-          'Junior Dev'
-        )
+        'button',
+        {
+          onClick: this.props.deleteContact,
+          className: 'form-btn del',
+          type: 'button',
+          name: 'delete' },
+        React.createElement('i', { className: 'fa fa-check-circle', 'aria-hidden': 'true' })
+      ),
+      '\xA0',
+      React.createElement(
+        'button',
+        { className: 'form-btn cancel',
+          type: 'button',
+          name: 'cancel',
+          onClick: this.props.cancel },
+        React.createElement('i', { className: 'fa fa-times-circle', 'aria-hidden': 'true' })
       )
     );
   }
-
 }
 
-module.exports = Contact;
+module.exports = FormButtons;
 
 /***/ }),
-/* 35 */
+/* 38 */
 /***/ (function(module, exports, __webpack_require__) {
 
-const React = __webpack_require__(1);
+const React = __webpack_require__(0);
 
 const Header = props => {
   return React.createElement(
@@ -21282,7 +21847,7 @@ const Header = props => {
     React.createElement(
       'h1',
       null,
-      'Contacts'
+      'My contacts'
     ),
     React.createElement(
       'h2',
@@ -21301,29 +21866,30 @@ const Header = props => {
 module.exports = Header;
 
 /***/ }),
-/* 36 */
+/* 39 */
 /***/ (function(module, exports, __webpack_require__) {
 
-const React = __webpack_require__(1);
+const React = __webpack_require__(0);
 
 class Search extends React.Component {
   constructor(props) {
     super(props);
     this.state = { querySearch: '' };
-    this.handleInput = event => {
-      event.preventDefault();
-      console.log("Handle Input works");
+    this.handleSearch = event => {
+      this.setState({ querySearch: event.target.value });
+      return this.props.inputName(event.target.value), this.props.filterNames(event.target.value);
     };
   }
   render() {
     return React.createElement(
       'form',
-      { onInput: this.handleInput },
-      React.createElement('input', { style: { margin: '10px 0px', width: '75%' },
+      { className: 'search', style: { textAlign: 'center' } },
+      React.createElement('input', { style: { margin: '10px -20px', width: '75%' },
+        onChange: this.handleSearch,
         value: this.state.querySearch,
-        onChange: event => this.setState({ querySearch: event.target.value }),
         type: 'text',
-        placeholder: 'Search here', required: true }),
+        placeholder: 'Search here', required: true
+      }),
       React.createElement('i', { className: 'fa fa-search', 'aria-hidden': 'true' })
     );
   }
@@ -21332,13 +21898,96 @@ class Search extends React.Component {
 module.exports = Search;
 
 /***/ }),
-/* 37 */
+/* 40 */
+/***/ (function(module, exports, __webpack_require__) {
+
+const React = __webpack_require__(0);
+const FormContact = __webpack_require__(16);
+const ContactList = __webpack_require__(15);
+
+class Add extends React.Component {
+  constructor(props) {
+    super(props);
+    let defaultPicture = "https://bit.ly/default-pic";
+    this.state = {
+      formShown: false,
+      formType: 'add',
+      counter: this.props.numberOfContacts + 1
+    };
+    this.changeFormDisplay = () => {
+      this.setState({ formShown: this.state.formShown ? false : true });
+    };
+    this.addHandler = () => {
+      this.changeFormDisplay();
+    };
+    this.cancelHandler = () => {
+      this.setState({ formShown: this.state.formShown ? false : true });
+    };
+
+    this.submitHandler = contact => {
+      let url = 'http://dev.alexshoucri.com:8888/contacts/';
+      console.log(url);
+      debugger;
+      axios.post(url, {
+        name: {
+          first: contact.firstName,
+          last: contact.lastName
+        },
+        jobTitle: contact.jobTitle,
+        address: {
+          address1: contact.address1,
+          address2: contact.address2,
+          city: contact.city,
+          state: contact.province,
+          zip: contact.zipcode
+        },
+        mobile_phone: contact.mobilePhone,
+        home_phone: contact.homePhone,
+        work_phone: contact.workPhone,
+        email: contact.email,
+        photo: contact.photo ? contact.photo : defaultPicture
+      }).then(resp => {
+        this.setState({ formShown: this.state.formShown ? false : true });
+        this.props.getLatestContacts();
+      });
+    };
+  }
+  render() {
+    return React.createElement(
+      'div',
+      { className: 'add-contact' },
+      React.createElement(
+        'p',
+        { style: {
+            textAlign: 'center',
+            fontSize: '50px',
+            fontWeight: '300'
+          } },
+        React.createElement('i', { className: 'fa fa-plus', 'aria-hidden': 'true',
+          style: { transform: this.state.formShown ? 'rotateZ(45deg)' : 'rotateZ(0deg)' },
+          onClick: this.addHandler })
+      ),
+      React.createElement(FormContact, {
+        submitHandler: this.submitHandler,
+        cancelHandler: this.cancelHandler,
+        numberOfContacts: this.props.numberOfContacts,
+        formType: this.state.formType,
+        visible: this.state.formShown
+      })
+    );
+  }
+}
+
+module.exports = Add;
+
+/***/ }),
+/* 41 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(38);
+var content = __webpack_require__(42);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // Prepare cssTransformation
 var transform;
@@ -21346,7 +21995,7 @@ var transform;
 var options = {"hmr":true}
 options.transform = transform
 // add the styles to the DOM
-var update = __webpack_require__(40)(content, options);
+var update = __webpack_require__(44)(content, options);
 if(content.locals) module.exports = content.locals;
 // Hot Module Replacement
 if(false) {
@@ -21363,21 +22012,21 @@ if(false) {
 }
 
 /***/ }),
-/* 38 */
+/* 42 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(39)(undefined);
+exports = module.exports = __webpack_require__(43)(undefined);
 // imports
 
 
 // module
-exports.push([module.i, "* {\n\tbox-sizing: border-box;\n\tfont-family: 'Josefin Sans', sans-serif;\n\tmargin: 0;\n\tpadding: 0;\n}\nhtml, body {\n\twidth: 100%;\n\theight: 100%;\n  background-color: rgba(89, 89, 113, 1);\n}\n.container {\n\tdisplay: block;\n\twidth: 100%;\n\theight: 100%;\n\tposition: relative;\n\ttext-align: center;\n  color: rgba(255, 255, 255, 1);\n  font-weight: 400;\n}\n/*********** Header ***********/\n.title {\n  width: 100%;\n  padding: 40px 0 10px;\n  font-size: 50px;\n}\nh1 {\n  font-weight: 300;\n}\n/*ICONS*/\n.icons {\n  display: inline-block;\n  width: 100%;\n  text-align: center;\n}\ni {\n  color: rgba(118, 118, 142, 1);\n  font-size: 16px;\n}\ni:hover{\n  cursor: pointer;\n  color: rgba(255, 255, 255, 1);\n}\ndiv.create-contact, div.search-contact {\n  display: inline-block;\n  margin: 10px 0 0;\n  font-size: 24px;\n  height: 75px;\n  width: 90px;\n  padding: 0 20px 0;\n}\ndiv.sort-list {\n  font-size: 20px;\n  margin-bottom: 20px;\n}\ndiv.sort-list p {\n  display: inline;\n  font-size: 18px;\n  font-weight: 300;\n}\ndiv.sort-list span {\n  padding-right: 5px;\n  font-size: 18px;\n  font-weight: 600;\n  cursor: pointer;\n}\n/*********** Search ***********/\ndiv.search {\n  width: 100%;\n  display: none;\n}\ndiv.search input {\n  height: 50px;\n  width: 100%;\n  font-size: 20px;\n  padding-left: 5px;\n}\n.close {\n  margin-top: 15px;\n}\n/*********** New Contact Form ***********/\ndiv.form {\n  display: none;\n}\n.create {\n  display: inline-block;\n}\n.input {\n  width: 100%;\n}\n.col {\n  font-size: 20px;\n  width: 405px;\n  float: left;\n  clear: both;\n  padding: 5px 0 5px;\n  margin-bottom: 3px;\n  border: 1px solid rgba(0, 0, 0, 1);\n  background-color: rgba(255, 255, 255, 0.9);\n}\n.type {\n  font-size: 20px;\n  font-weight: 300;\n  width: 405px;\n  float: left;\n  clear: both;\n  padding: 5px 0 5px;\n  margin-bottom: 3px;\n}\nlabel{\n  padding-left: 5px;\n  padding-right: 5px;\n  vertical-align: middle;\n\n}\ninput#typeOther1, i.fa.fa-plus.moreNums{\n  height: 30px;\n  vertical-align: middle;\n}\nbutton.form-btn {\n  display: inline-block;\n  width: 200px;\n  height: 40px;\n  font-size: 26px;\n  border: 1px solid rgba(0, 0, 0, 1);\n  color: rgba(255, 255, 255, 1);\n  background-color: rgba(0, 0, 0, 1);\n}\nbutton.form-btn:hover {\n  cursor: pointer;\n  color: rgba(0, 0, 0, 1);\n  background-color: rgba(255, 255, 255, 1);\n}\n.close {\n  display: block;\n}\n/*********** Contact Display ***********/\n#contacts{\n  position: relative;\n  text-align: center;\n}\ntable.list {\n  width: 100%;\n}\ntr.info {\n  height: 90px;\n}\n.person {\n  text-align: left;\n}\n.name {\n  font-size: 20px;\n  font-weight: 600;\n  letter-spacing: 3px;\n  text-transform: uppercase;\n}\n.jobTitle {\n  font-size: 18px;\n  font-weight: 300;\n  letter-spacing: 2px;\n  color: rgba(255, 255, 255, 0.5);\n}\n", ""]);
+exports.push([module.i, "* {\n\tbox-sizing: border-box;\n\tfont-family: 'Josefin Sans', sans-serif;\n\tmargin: 0;\n\tpadding: 0;\n}\nhtml, body {\n\twidth: 100%;\n\theight: 100%;\n  background-color: rgba(89, 89, 113, 1);\n  color: rgba(255, 255, 255, 1);\n}\n.container {\n\tdisplay: block;\n\twidth: 100%;\n\theight: 100%;\n\tposition: relative;\n\ttext-align: center;\n  color: rgba(255, 255, 255, 1);\n  font-weight: 400;\n}\na:link {\n  color: rgba(255, 255, 255, 1);\n}\n.fixed {\n  position: fixed;\n  z-index: 100;\n  top: 0;\n  display: block;\n  width: 100%;\n  background-color: rgba(89, 89, 113, 0.95);\n}\n.header {\n  padding-top: 300px;\n}\n/*********** Header ***********/\nheader {\n  text-align: center;\n  padding-top: 50px;\n}\n\nh1,h2 {\n  font-weight: 300;\n  padding-bottom: 5px;\n}\nh2 {\n  padding-bottom: 15px;\n}\n/*ICONS*/\n.icons {\n  display: inline-block;\n  width: 100%;\n  text-align: center;\n}\ni {\n  font-size: 16px;\n}\ni.fa.fa-search, i.fa.fa-plus {\n  font-size: 40px;\n  vertical-align: middle;\n\n}\ni.fa.fa-search {\n  margin-left: -30px;\n  color: rgba(118, 118, 142, 1);\n  height: 50px;\n  width: 50px;\n}\ni.fa.fa-plus, i.fa.fa-angle-down {\n  transition: 0.5s 0s all ease-out;\n}\ni:hover, i.fa.fa-search:hover{\n  cursor: pointer;\n  color: rgba(255, 118,  142, 1);\n}\ndiv.search-contact {\n  display: inline-block;\n  margin: 10px 0 0;\n  font-size: 24px;\n  height: 75px;\n  width: 90px;\n  padding: 0 20px 0;\n}\ndiv.sort-items {\n  text-align: center;\n  font-size: 20px;\n  margin-bottom: 20px;\n}\ndiv.sort-items p {\n  display: inline;\n  font-size: 18px;\n  font-weight: 300;\n}\ndiv.sort-items span {\n  padding-right: 5px;\n  font-size: 18px;\n  font-weight: 600;\n  cursor: pointer;\n}\n/*********** Search ***********/\n.search {\n  padding: 0 0 15px;\n}\n.search > input {\n  border-radius: 50px;\n  border: none;\n  height: 50px;\n  font-size: 20px;\n  padding-left: 15px;\n}\nform > input:focus {\n  outline: none;\n}\n.close {\n  margin-top: 15px;\n}\n/*********** New Contact Form ***********/\n.create {\n  display: inline-block;\n}\n.form{\n  position: absolute;\n  width: 100vw;\n  height: 100vh;\n  top: 0;\n  background-color: rgba(55, 55, 55, 0.9);\n  overflow: scroll;\n  z-index: 100;\n}\n.add-contact > .form {\n  padding-top: 50px;\nmargin-top: 185px;\n}\n.input {\n  width: 100%;\n}\ninput {\n  color: #00bcd4;\n}\n.col {\n  font-size: 20px;\n  width: 405px;\n  float: left;\n  clear: both;\n  padding: 5px 5px 5px;\n  margin-bottom: 3px;\n  border: none;\n  color: #00bcd4;\n  font-weight: 300;\n  border-bottom: 1px solid #00bcd4;\n  background-color: rgba(255, 255, 255, 0);\n}\n.type {\n  font-size: 20px;\n  font-weight: 300;\n  width: 405px;\n  float: left;\n  clear: both;\n  padding: 5px 0 5px;\n  margin-bottom: 3px;\n}\ninput#typeOther1, i.fa.fa-plus.moreNums{\n  height: 30px;\n  vertical-align: middle;\n}\nbutton.form-btn {\n  display: inline-block;\n  width: 40px;\n  height: 40px;\n  font-size: 26px;\n  border: 1px solid rgba(0, 0, 0, 1);\n  color: rgba(255, 255, 255, 1);\n  background-color: rgba(0, 0, 0, 1);\n  cursor: pointer;\n}\nbutton.cancel {\n  border-radius: 0 100% 100% 0;\n}\nbutton.update, button.new, button.del  {\n  border-radius: 100% 0 0 100% ;\n}\nbutton.update > i:hover, button.new > i:hover, button.del > i:hover {\n  color: #00bcd4;\n\n}\nbutton {\n  outline: none;\n}\n.close {\n  display: block;\n}\n::-webkit-input-placeholder {\n  color: rgba(255, 118,  142, 1);\n}\n/*********** Contact Display ***********/\n.contact{\n  position: relative;\n  min-height: 90px;\n  vertical-align: middle;\n  text-align: left;\n  padding-top: 15px;\n  padding-bottom: 5px;\n  width: 100%;\n  transition: 1s 0s all ease-out;\n}\n.icons2 {\n  position: absolute;\n  top: 15px;\n  right: 0;\n}\n.icons2 > a , .icons2 > i {\n    padding: 0 10px 0;\n}\n.contact:nth-child(odd) {\n  background-color: rgba(127, 127, 161, 1);\n}\n.first-name, .last-name {\n  text-align: left;\n}\n.name {\n  vertical-align: top;\n  font-size: 20px;\n  font-weight: 600;\n  letter-spacing: 3px;\n  text-transform: uppercase;\n  min-width: 300px;\n}\n.job-title, .full-profile {\n  text-align: left;\n  font-size: 18px;\n  font-weight: 300;\n  letter-spacing: 2px;\n  color: rgba(255, 255, 255, 0.5);\n}\n.full-profile{\n  font-size: 14px;\n  text-transform: lowercase;\n  font-weight: 300;\n}\n.full-profile p {\n  width: 100%;\n}\nimg.profile-picture {\n  border-radius: 100%;\n  padding: 0 10px 0;\n}\n@media (max-width: 468px) {\n  header {\n    padding-top: 20px;\n  }\n  .header {\n    padding-top: 275px;\n  }\n  .name {\n    padding-top: 10px;\n    font-size: 18px;\n    font-weight: 600;\n    letter-spacing: 2px;\n    text-transform: uppercase;\n    text-align: center;\n  }\n  .job-title {\n    text-align: center;\n    font-size: 13px;\n    font-weight: 300;\n    letter-spacing: 1px;\n    color: rgba(255, 255, 255, 0.5);\n  }\n  img.profile-picture {\n    margin-top: 25px;\n  }\n  .full-profile {\n    display: inline-block;\n\n  }\n  .full-profile p {\n    text-align: left;\n    padding-top: 5px;\n    width: 100%;\n  }\n  .contact, .first-name, .last-name, .full-profile {\n    text-align: center;\n  }\n  img.profile-picture {\n    width: 250px;\n  }\n  .icons2 {\n    top: 10px;\n    left: 0;\n    right: 0;\n  }\n  .icons2 > a , .icons2 > i {\n      padding: 0 20px 0;\n  }\n  .col {\n    width: 100%;\n  }\n  .add-contact > .form {\n    margin-top: 0;\n  }\n}\n", ""]);
 
 // exports
 
 
 /***/ }),
-/* 39 */
+/* 43 */
 /***/ (function(module, exports) {
 
 /*
@@ -21459,7 +22108,7 @@ function toComment(sourceMap) {
 
 
 /***/ }),
-/* 40 */
+/* 44 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /*
@@ -21515,7 +22164,7 @@ var singleton = null;
 var	singletonCounter = 0;
 var	stylesInsertedAtTop = [];
 
-var	fixUrls = __webpack_require__(41);
+var	fixUrls = __webpack_require__(45);
 
 module.exports = function(list, options) {
 	if (typeof DEBUG !== "undefined" && DEBUG) {
@@ -21831,7 +22480,7 @@ function updateLink (link, options, obj) {
 
 
 /***/ }),
-/* 41 */
+/* 45 */
 /***/ (function(module, exports) {
 
 

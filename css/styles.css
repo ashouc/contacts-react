@@ -176,15 +176,19 @@ button.form-btn {
 button.cancel {
   border-radius: 0 100% 100% 0;
 }
-button.update, button.new  {
+button.update, button.new, button.del  {
   border-radius: 100% 0 0 100% ;
 }
-button.update > i:hover, button.new > i:hover {
+button.update > i:hover, button.new > i:hover, button.del > i:hover {
   color: #00bcd4;
 
 }
 button {
   outline: none;
+}
+.delete-confirm > p {
+  font-size: 48px;
+  color: rgba(255, 118,  142, 1);
 }
 .close {
   display: block;

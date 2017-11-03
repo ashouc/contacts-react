@@ -1,6 +1,7 @@
 const React = require('react');
 const FormContact = require('./FormContact');
-const ViewFullProfile = require('./ViewFullProfile')
+const ViewFullProfile = require('./ViewFullProfile');
+const FormButtons = require('./FormButtons');
 
 class Contact extends React.Component {
   constructor(props) {
@@ -28,6 +29,14 @@ class Contact extends React.Component {
       }
     };
 
+    this.confirmDeleteContact = () => {
+      this.setState({deleteConfirmation: true});
+    }
+
+    this.cancelDelete = () => {
+      this.setState({deleteConfirmation: false});
+    }
+
     this.changeFormDisplay = (event) => {
       this.setState({formShown: (this.state.formShown) ? false : true});
     };
@@ -36,10 +45,10 @@ class Contact extends React.Component {
       this.setState({showFullProfile: (this.state.showFullProfile) ? false : true});
       this.getFullProfile();
     };
-    this.updateHandler = (contact) => {
-      this.updateContact(contact);
-    };
+
     this.updateContact = (contact) => {
+      console.log(contact);
+      debugger;
       let id = contact.id;
       let url = 'http://dev.alexshoucri.com:8888/contacts/' + id;
       axios.put(url, {
@@ -53,8 +62,8 @@ class Contact extends React.Component {
           address1: contact.address1,
           address2: contact.address2,
           city: contact.city,
-          state: contact.state,
-          zip: contact.zip
+          state: contact.province,
+          zip: contact.zipcode
         },
         mobile_phone: contact.mobilePhone,
         home_phone: contact.homePhone,
@@ -65,6 +74,9 @@ class Contact extends React.Component {
       .then((resp) => {
         this.setState({formShown: (this.state.formShown) ? false : true});
       })
+      .then(() => {
+        this.props.getLatestContacts();
+      });
     }
 
     this.deleteHandler = (event) => {
@@ -77,6 +89,9 @@ class Contact extends React.Component {
       let url = 'http://dev.alexshoucri.com:8888/contacts/' + id;
       axios.delete(url, {
         params: {}
+      })
+      .then(() => {
+        this.setState({deleteConfirmation: false});
       })
       .then(() => {
         this.props.getLatestContacts();
@@ -94,12 +109,15 @@ class Contact extends React.Component {
 
     this.getFullProfile = (origin, event) => {
       let id = this.props.id;
+      console.log(id)
       let url = 'http://dev.alexshoucri.com:8888/contacts/' + id;
       axios.get(url, {
       })
       .then((resp) => {
+        console.log(resp.data)
         this.setState({
           contactInfo: {
+            id: this.props.id,
             firstName: resp.data.name.first,
             lastName: resp.data.name.last,
             jobTitle: resp.data.jobTitle,
@@ -148,13 +166,25 @@ class Contact extends React.Component {
           <div className="icons2">
             <a href="mailto:alex@example.com"><i className="email fa fa-envelope-o fa-lg" aria-hidden="true"></i></a>
             <i className="edit fa fa-pencil fa-lg" aria-hidden="true" onClick={this.editProfile}></i>
-            <i className="delete fa fa-trash-o fa-lg" aria-hidden="true" onClick={this.deleteHandler}></i>
+            <i className="delete fa fa-trash-o fa-lg" aria-hidden="true" onClick={this.confirmDeleteContact}></i>
           </div>
+        </div>
+        <div className='delete-confirm'
+          style={{
+            display: (this.state.deleteConfirmation) ? "inline-block" : "none",
+            textAlign: 'center',
+            width: '100%'
+            }}>
+          <p>Delete?</p>
+          <FormButtons
+            cancel={this.cancelDelete}
+            deleteContact={this.deleteHandler}
+          />
         </div>
         <FormContact
           fullProfile={this.state.contactInfo}
           cancelHandler={this.cancelUpdate}
-          updateHandler={this.updateHandler}
+          updateContact={this.updateContact}
           visible={this.state.formShown}
           formType={this.state.formType}
         />

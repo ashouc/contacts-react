@@ -24,9 +24,8 @@ class Add extends React.Component {
     }
 
     this.submitHandler = (contact) => {
+      console.log(contact);
       let url = 'http://dev.alexshoucri.com:8888/contacts/';
-      console.log(url);
-      debugger;
       axios.post(url, {
         name: {
           first: contact.firstName,
