@@ -4,3 +4,27 @@ This is a single page application that mimics a contact book and list a user's c
 The web application is available online [here](http://alexshoucri.com/contacts-react/build).
 
 ![](header.png)
+
+## Components
+&nbsp;```<App />```
+
+&nbsp;```<Contact />```
+
+&nbsp;```<ContactList />```
+
+&nbsp;```<AddContact />```
+
+&nbsp;```<FormContact />```
+
+&nbsp;```<FormButtons />```
+
+&nbsp;```<Header />```
+
+&nbsp;```<Search />```
+
+&nbsp;```<ViewFullProfile />```
+
+##Features
+
+
+## API Contracts
