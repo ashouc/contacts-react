@@ -6,10 +6,37 @@ The web application is available online [here](http://alexshoucri.com/contacts-r
 ![](header.png)
 
 ## Components
-This React.js application contains a total of 8 components.
+This React application contains a total of 8 components.
 
+1. **App**
+&nbsp;```<App />``` is the main component and is used to manage the relationship between all other components listed below. It renders all the other components and manages the state of the data of all contacts received from the API.
+
+2. **Contact**
+&nbsp;```<Contact />``` is used to render a single contact with the information received from the server. It also manages the the API calls to edit, delete and view the detailed profile of this contact and renders partial contact information (first name, last name, job title, profile picture).
+
+3. **ContactList**
+&nbsp;```<ContactList />``` creates the list of all contacts by converting an array of entries into an array of ```<Contact />```.
+
+3. **AddContact**
+&nbsp;```<AddContact />``` allows the user to add a new contact to the list of contacts.
+
+4. **FormContact**
+&nbsp;```<FormContact />``` renders the form which is used to create and update contacts.
+
+5. **FormButtons**
+&nbsp;```<FormButtons />``` renders the buttons to submit or cancel calls to the API.
+
+6. **Header**
+&nbsp;```<Header />``` is a function component which returns the header of the page and the number of contacts on the list.
+
+7. **Search**
+&nbsp;```<Search />``` helps the user to quickly find a contact by typing either a contact's first name or last name.
+
+8. **ViewFullProfile**
+&nbsp;```<ViewFullProfile />``` allows the user to view the full profile of a contact.  
 
 ##Features
+Several features are found in this application.
 
 
 ## API Contracts
