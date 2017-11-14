@@ -38,6 +38,46 @@ This React application contains a total of 8 components.
 ##Features
 Several features are found in this application.
 
+1. **Sort by first name or last name**
+
+This allows the user to view contacts alphabetically according to the first name or last name. By clicking on the bold text, it will execute the sort function.
+
+2. **Search for contact**
+
+You can search for a specific person. By typing the first letters in the input field, the search will match according to the selected sorting preference.
+
+3. **Add new contact**
+
+The first step to add a contact is to click on the plus sign. A form will open and you can enter different informations:
+- First name;
+- Las Name;
+- Job title;
+- Address (civic number, street, city, state, zip code);
+- Phone numbers (mobile, home, work);
+- Email;
+- Profile photo.
+
+A default profile picture will be added to a contact if no picture is submitted. Finally, by clicking the button "Create contact", the contact will be added to the list of contacts. The user can also cancel and return to the original UI with all contacts by clicking on "X" to cancel.
+
+4. **Edit contact**
+
+The user can edit a contact by clicking on the pencil icon, on the right hand side of the UI. A form will open and the user can update the information of a contact. The user can also cancel and return to the UI with all contacts by clicking on "X" to cancel.
+
+5. **Send email**
+
+The user can send an email to a contact by clicking on the envelop icon associated to each contact.
+
+6. **Delete contact**
+
+The user can delete a contact by clicking on the trash icon associated to each contact found on the right hand side on the UI.
+
+7. **Expand profile**
+
+To see the full profile of each contact, the user can click on the chevron icon (pointing down) found next to the full name.
+
+8. **Collapse profile**
+
+To collapse to full profile and see partial profiles, the user can click on the chevron icon (pointing up) found next to the name.
 
 ## API Contracts
 It is assumed that the contact data is retrieved using the following urls:
